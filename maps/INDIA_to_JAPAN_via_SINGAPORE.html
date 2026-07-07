@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_e664cb42f2dd0a55adcdab00929564aa {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+     <div style="
+     position: fixed; 
+     bottom: 30px; left: 30px; width: 260px; 
+     background-color: white; 
+     border:2px solid grey; z-index:9999; font-size:14px;
+     padding: 12px; border-radius: 6px;
+     ">
+     <b>Route Legend</b><br><br>
+     <i style="color:red;">━━━</i> Direct Route (INDIA → JAPAN)<br>
+     <i style="color:green;">━━━</i> Optimized Route (INDIA → SINGAPORE → JAPAN)
+     </div>
+    
+    
+            <div class="folium-map" id="map_e664cb42f2dd0a55adcdab00929564aa" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_e664cb42f2dd0a55adcdab00929564aa = L.map(
+                "map_e664cb42f2dd0a55adcdab00929564aa",
+                {
+                    center: [28.39925, 108.6079],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 3,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_0e258b003caf94502bbace9ae65d8cc6 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_0e258b003caf94502bbace9ae65d8cc6.addTo(map_e664cb42f2dd0a55adcdab00929564aa);
+        
+    
+            var marker_2c00616269f8ac7bf75907cade4e01a2 = L.marker(
+                [20.5937, 78.9629],
+                {}
+            ).addTo(map_e664cb42f2dd0a55adcdab00929564aa);
+        
+    
+            var icon_a5abac10b9d365a7b8e0ddfc1c5098b2 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_2c00616269f8ac7bf75907cade4e01a2.setIcon(icon_a5abac10b9d365a7b8e0ddfc1c5098b2);
+        
+    
+            marker_2c00616269f8ac7bf75907cade4e01a2.bindTooltip(
+                `<div>
+                     Source: INDIA
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_d67ece4a36a42a8669662c36757a3072 = L.marker(
+                [36.2048, 138.2529],
+                {}
+            ).addTo(map_e664cb42f2dd0a55adcdab00929564aa);
+        
+    
+            var icon_2e1a11f5ec5edf47c1cacecadc4a82a6 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_d67ece4a36a42a8669662c36757a3072.setIcon(icon_2e1a11f5ec5edf47c1cacecadc4a82a6);
+        
+    
+            marker_d67ece4a36a42a8669662c36757a3072.bindTooltip(
+                `<div>
+                     Destination: JAPAN
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_a0342fe2aa6379d35233aaf921f815dc = L.polyline(
+                [[20.5937, 78.9629], [36.2048, 138.2529]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": "5,5", "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_e664cb42f2dd0a55adcdab00929564aa);
+        
+    
+            poly_line_a0342fe2aa6379d35233aaf921f815dc.bindTooltip(
+                `<div>
+                     Direct Route (Higher Cost)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_9532de2e3a01803d4c3ecc8e622fe42d = L.polyline(
+                [[20.5937, 78.9629], [1.3521, 103.8198], [36.2048, 138.2529]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_e664cb42f2dd0a55adcdab00929564aa);
+        
+    
+            poly_line_9532de2e3a01803d4c3ecc8e622fe42d.bindTooltip(
+                `<div>
+                     Optimized Route: INDIA → SINGAPORE → JAPAN
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_1109b83ac9b7a0fb28563c2bf68ceec4 = L.marker(
+                [1.3521, 103.8198],
+                {}
+            ).addTo(map_e664cb42f2dd0a55adcdab00929564aa);
+        
+    
+            var icon_8a456c2b8bd6ec3b88c09cd54f6fa56e = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_1109b83ac9b7a0fb28563c2bf68ceec4.setIcon(icon_8a456c2b8bd6ec3b88c09cd54f6fa56e);
+        
+    
+            marker_1109b83ac9b7a0fb28563c2bf68ceec4.bindTooltip(
+                `<div>
+                     Via: SINGAPORE
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
+</html>

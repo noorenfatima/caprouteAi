@@ -1,0 +1,5 @@
+{
+  "name": "GlobalAssetFlow",
+  "description": "Modern fintech SaaS web application that simulates and optimizes cross-border asset movement (currencies, gold, crypto) by analyzing cost, risk, and compliance.",
+  "requestFramePermissions": []
+}

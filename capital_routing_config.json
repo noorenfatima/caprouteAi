@@ -1,0 +1,215 @@
+{
+  "version": "2026.Q2.Final",
+  "global_constants": {
+    "iso_20022_compliance_fee": 35.00,
+    "swift_gpi_tracking_premium": 5.00,
+    "weekend_liquidity_buffer_pct": 0.0125
+  },
+  "base_origins": {
+    "INDIA": {
+      "base_currency": "INR",
+      "destination_zones": {
+        "ZONE_A_DTAA_PRIME": {
+          "countries": ["USA", "UK", "CANADA", "FRANCE", "GERMANY", "JAPAN", "NETHERLANDS"],
+          "logic": {
+            "withholding_tax_dividends": 0.15,
+            "withholding_tax_interest": 0.10,
+            "avg_correspondent_hops": 1,
+            "compliance_latency_hrs": 12,
+            "landing_fee_range_usd": [15, 30]
+          }
+        },
+        "ZONE_B_TAX_HAVEN_LOW_FRICTION": {
+          "countries": ["UAE", "SINGAPORE", "MAURITIUS", "HONG_KONG"],
+          "logic": {
+            "withholding_tax_dividends": 0.00,
+            "withholding_tax_interest": 0.00,
+            "avg_correspondent_hops": 0,
+            "compliance_latency_hrs": 4,
+            "landing_fee_range_usd": [0, 10]
+          }
+        },
+        "ZONE_C_HIGH_COMPLIANCE": {
+          "countries": ["CHINA", "BRAZIL", "ARGENTINA", "NIGERIA", "SOUTH_AFRICA"],
+          "logic": {
+            "withholding_tax_dividends": 0.10,
+            "withholding_tax_interest": 0.15,
+            "additional_local_tax_pct": 0.02,
+            "mandatory_purpose_code_validation": true,
+            "compliance_latency_hrs": 48,
+            "landing_fee_range_usd": [40, 75]
+          }
+        }
+      },
+      "asset_specific_coefficients": {
+        "FDI_INVESTMENT": { "reporting_fee_local": 2500, "kyc_depth": "HIGH", "tax_on_exit_pct": 0.10 },
+        "STOCK_MARKET": { "fx_markup_pct": 0.0075, "custody_fee_annual": 0.001, "div_tax_pct": 0.25 },
+        "NORMAL_TRANSFER": { "fx_spread_bank": 0.035, "fx_spread_fintech": 0.006, "min_usd": 10 }
+      }
+    },
+    "UAE": {
+      "base_currency": "AED",
+      "destination_zones": {
+        "ZONE_A_DTAA_PRIME": {
+          "countries": ["USA", "UK", "CANADA", "FRANCE", "GERMANY", "JAPAN", "NETHERLANDS"],
+          "logic": {
+            "withholding_tax_dividends": 0.15,
+            "withholding_tax_interest": 0.10,
+            "avg_correspondent_hops": 1,
+            "compliance_latency_hrs": 8,
+            "landing_fee_range_usd": [10, 25]
+          }
+        },
+        "ZONE_B_TAX_HAVEN_LOW_FRICTION": {
+          "countries": ["INDIA", "SINGAPORE", "MAURITIUS", "HONG_KONG"],
+          "logic": {
+            "withholding_tax_dividends": 0.00,
+            "withholding_tax_interest": 0.00,
+            "avg_correspondent_hops": 0,
+            "compliance_latency_hrs": 2,
+            "landing_fee_range_usd": [0, 5]
+          }
+        },
+        "ZONE_C_HIGH_COMPLIANCE": {
+          "countries": ["CHINA", "BRAZIL", "ARGENTINA", "NIGERIA", "SOUTH_AFRICA"],
+          "logic": {
+            "withholding_tax_dividends": 0.10,
+            "withholding_tax_interest": 0.15,
+            "additional_local_tax_pct": 0.01,
+            "mandatory_purpose_code_validation": true,
+            "compliance_latency_hrs": 24,
+            "landing_fee_range_usd": [30, 60]
+          }
+        }
+      },
+      "asset_specific_coefficients": {
+        "FDI_INVESTMENT": { "reporting_fee_local": 150, "kyc_depth": "MEDIUM", "tax_on_exit_pct": 0.00 },
+        "STOCK_MARKET": { "fx_markup_pct": 0.0050, "custody_fee_annual": 0.0005, "div_tax_pct": 0.00 },
+        "NORMAL_TRANSFER": { "fx_spread_bank": 0.015, "fx_spread_fintech": 0.004, "min_usd": 20 }
+      }
+    },
+    "SINGAPORE": {
+      "base_currency": "SGD",
+      "destination_zones": {
+        "ZONE_A_DTAA_PRIME": {
+          "countries": ["USA", "UK", "CANADA", "FRANCE", "GERMANY", "JAPAN", "NETHERLANDS"],
+          "logic": {
+            "withholding_tax_dividends": 0.10,
+            "withholding_tax_interest": 0.10,
+            "avg_correspondent_hops": 1,
+            "compliance_latency_hrs": 6,
+            "landing_fee_range_usd": [10, 20]
+          }
+        },
+        "ZONE_B_TAX_HAVEN_LOW_FRICTION": {
+          "countries": ["UAE", "INDIA", "MAURITIUS", "HONG_KONG"],
+          "logic": {
+            "withholding_tax_dividends": 0.00,
+            "withholding_tax_interest": 0.00,
+            "avg_correspondent_hops": 0,
+            "compliance_latency_hrs": 2,
+            "landing_fee_range_usd": [0, 8]
+          }
+        },
+        "ZONE_C_HIGH_COMPLIANCE": {
+          "countries": ["CHINA", "BRAZIL", "ARGENTINA", "NIGERIA", "SOUTH_AFRICA"],
+          "logic": {
+            "withholding_tax_dividends": 0.10,
+            "withholding_tax_interest": 0.15,
+            "additional_local_tax_pct": 0.015,
+            "mandatory_purpose_code_validation": true,
+            "compliance_latency_hrs": 18,
+            "landing_fee_range_usd": [25, 50]
+          }
+        }
+      },
+      "asset_specific_coefficients": {
+        "FDI_INVESTMENT": { "reporting_fee_local": 50, "kyc_depth": "MEDIUM", "tax_on_exit_pct": 0.00 },
+        "STOCK_MARKET": { "fx_markup_pct": 0.0040, "custody_fee_annual": 0.0008, "div_tax_pct": 0.00 },
+        "NORMAL_TRANSFER": { "fx_spread_bank": 0.020, "fx_spread_fintech": 0.003, "min_usd": 50 }
+      }
+    },
+    "USA": {
+      "base_currency": "USD",
+      "destination_zones": {
+        "ZONE_A_DTAA_PRIME": {
+          "countries": ["UK", "CANADA", "FRANCE", "GERMANY", "JAPAN", "NETHERLANDS"],
+          "logic": {
+            "withholding_tax_dividends": 0.15,
+            "withholding_tax_interest": 0.10,
+            "avg_correspondent_hops": 1,
+            "compliance_latency_hrs": 4,
+            "landing_fee_range_usd": [20, 45]
+          }
+        },
+        "ZONE_B_TAX_HAVEN_LOW_FRICTION": {
+          "countries": ["UAE", "SINGAPORE", "MAURITIUS", "HONG_KONG", "INDIA"],
+          "logic": {
+            "withholding_tax_dividends": 0.30,
+            "withholding_tax_interest": 0.30,
+            "avg_correspondent_hops": 0,
+            "compliance_latency_hrs": 8,
+            "landing_fee_range_usd": [10, 20]
+          }
+        },
+        "ZONE_C_HIGH_COMPLIANCE": {
+          "countries": ["CHINA", "BRAZIL", "ARGENTINA", "NIGERIA", "SOUTH_AFRICA"],
+          "logic": {
+            "withholding_tax_dividends": 0.10,
+            "withholding_tax_interest": 0.20,
+            "additional_local_tax_pct": 0.03,
+            "mandatory_purpose_code_validation": true,
+            "compliance_latency_hrs": 36,
+            "landing_fee_range_usd": [50, 100]
+          }
+        }
+      },
+      "asset_specific_coefficients": {
+        "FDI_INVESTMENT": { "reporting_fee_local": 100, "kyc_depth": "CRITICAL", "tax_on_exit_pct": 0.15 },
+        "STOCK_MARKET": { "fx_markup_pct": 0.0100, "custody_fee_annual": 0.002, "div_tax_pct": 0.30 },
+        "NORMAL_TRANSFER": { "fx_spread_bank": 0.040, "fx_spread_fintech": 0.008, "min_usd": 100 }
+      }
+    },
+    "MAURITIUS": {
+      "base_currency": "MUR",
+      "destination_zones": {
+        "ZONE_A_DTAA_PRIME": {
+          "countries": ["USA", "UK", "CANADA", "FRANCE", "GERMANY", "JAPAN", "NETHERLANDS", "INDIA"],
+          "logic": {
+            "withholding_tax_dividends": 0.05,
+            "withholding_tax_interest": 0.00,
+            "avg_correspondent_hops": 1,
+            "compliance_latency_hrs": 12,
+            "landing_fee_range_usd": [15, 30]
+          }
+        },
+        "ZONE_B_TAX_HAVEN_LOW_FRICTION": {
+          "countries": ["UAE", "SINGAPORE", "HONG_KONG"],
+          "logic": {
+            "withholding_tax_dividends": 0.00,
+            "withholding_tax_interest": 0.00,
+            "avg_correspondent_hops": 0,
+            "compliance_latency_hrs": 4,
+            "landing_fee_range_usd": [0, 15]
+          }
+        },
+        "ZONE_C_HIGH_COMPLIANCE": {
+          "countries": ["CHINA", "BRAZIL", "ARGENTINA", "NIGERIA", "SOUTH_AFRICA"],
+          "logic": {
+            "withholding_tax_dividends": 0.10,
+            "withholding_tax_interest": 0.15,
+            "additional_local_tax_pct": 0.02,
+            "mandatory_purpose_code_validation": true,
+            "compliance_latency_hrs": 48,
+            "landing_fee_range_usd": [40, 75]
+          }
+        }
+      },
+      "asset_specific_coefficients": {
+        "FDI_INVESTMENT": { "reporting_fee_local": 500, "kyc_depth": "MEDIUM", "tax_on_exit_pct": 0.03 },
+        "STOCK_MARKET": { "fx_markup_pct": 0.0090, "custody_fee_annual": 0.001, "div_tax_pct": 0.00 },
+        "NORMAL_TRANSFER": { "fx_spread_bank": 0.030, "fx_spread_fintech": 0.007, "min_usd": 20 }
+      }
+    }
+  }
+}

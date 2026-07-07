@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_0afb959075dc69789f61138b5752869b {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+     <div style="
+     position: fixed; 
+     bottom: 30px; left: 30px; width: 260px; 
+     background-color: white; 
+     border:2px solid grey; z-index:9999; font-size:14px;
+     padding: 12px; border-radius: 6px;
+     ">
+     <b>Route Legend</b><br><br>
+     <i style="color:red;">━━━</i> Direct Route (UAE → GERMANY)<br>
+     <i style="color:green;">━━━</i> Optimized Route (UAE → GERMANY)
+     </div>
+    
+    
+            <div class="folium-map" id="map_0afb959075dc69789f61138b5752869b" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_0afb959075dc69789f61138b5752869b = L.map(
+                "map_0afb959075dc69789f61138b5752869b",
+                {
+                    center: [37.2949, 32.14965],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 3,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_69337ce14173f4cd7df6221553f4a775 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_69337ce14173f4cd7df6221553f4a775.addTo(map_0afb959075dc69789f61138b5752869b);
+        
+    
+            var marker_440191d45f24d5fcd063e26dfa8e7adf = L.marker(
+                [23.4241, 53.8478],
+                {}
+            ).addTo(map_0afb959075dc69789f61138b5752869b);
+        
+    
+            var icon_e14eb39603b87ca7a4435162de3718f3 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
+            );
+            marker_440191d45f24d5fcd063e26dfa8e7adf.setIcon(icon_e14eb39603b87ca7a4435162de3718f3);
+        
+    
+            marker_440191d45f24d5fcd063e26dfa8e7adf.bindTooltip(
+                `<div>
+                     Source: UAE
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_605351271b8fbf34af4757e0add61935 = L.marker(
+                [51.1657, 10.4515],
+                {}
+            ).addTo(map_0afb959075dc69789f61138b5752869b);
+        
+    
+            var icon_5f982ba8a0dadbe0573df5e5dc413a55 = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
+            );
+            marker_605351271b8fbf34af4757e0add61935.setIcon(icon_5f982ba8a0dadbe0573df5e5dc413a55);
+        
+    
+            marker_605351271b8fbf34af4757e0add61935.bindTooltip(
+                `<div>
+                     Destination: GERMANY
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_6d2e088ac65bfe473a9b00b43ca2cb3e = L.polyline(
+                [[23.4241, 53.8478], [51.1657, 10.4515]],
+                {"bubblingMouseEvents": true, "color": "red", "dashArray": "5,5", "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 4}
+            ).addTo(map_0afb959075dc69789f61138b5752869b);
+        
+    
+            poly_line_6d2e088ac65bfe473a9b00b43ca2cb3e.bindTooltip(
+                `<div>
+                     Direct Route (Higher Cost)
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var poly_line_9bf98ee266af46e10cc0df41df1350b1 = L.polyline(
+                [[23.4241, 53.8478], [51.1657, 10.4515]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
+            ).addTo(map_0afb959075dc69789f61138b5752869b);
+        
+    
+            poly_line_9bf98ee266af46e10cc0df41df1350b1.bindTooltip(
+                `<div>
+                     Optimized Route: UAE → GERMANY
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
+</html>
