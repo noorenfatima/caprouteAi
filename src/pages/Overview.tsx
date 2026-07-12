@@ -159,7 +159,7 @@ export default function Overview() {
             <div className="bg-[#6D5DF5] rounded-[2rem] p-8 text-white shadow-sm">
               <h3 className="text-lg font-bold mb-3">Optimization Ready</h3>
               <p className="text-sm text-white/80 leading-relaxed mb-6">
-                The backend engine is returning live route recommendations and cost comparisons.
+                The model is returning live route recommendations and cost comparisons.
               </p>
               <button
                 type="button"

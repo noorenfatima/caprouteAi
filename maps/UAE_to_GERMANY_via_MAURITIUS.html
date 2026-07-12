@@ -25,7 +25,7 @@
             <meta name="viewport" content="width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
             <style>
-                #map_f4522a05425dc93c624635dc88d481f3 {
+                #map_70898e89506c038cd0515a5d72467ee2 {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -47,21 +47,21 @@
      padding: 12px; border-radius: 6px;
      ">
      <b>Route Legend</b><br><br>
-     <i style="color:red;">━━━</i> Direct Route (USA → BRAZIL)<br>
-     <i style="color:green;">━━━</i> Optimized Route (USA → BRAZIL)
+     <i style="color:red;">━━━</i> Direct Route (UAE → GERMANY)<br>
+     <i style="color:green;">━━━</i> Optimized Route (UAE → MAURITIUS → GERMANY)
      </div>
     
     
-            <div class="folium-map" id="map_f4522a05425dc93c624635dc88d481f3" ></div>
+            <div class="folium-map" id="map_70898e89506c038cd0515a5d72467ee2" ></div>
         
 </body>
 <script>
     
     
-            var map_f4522a05425dc93c624635dc88d481f3 = L.map(
-                "map_f4522a05425dc93c624635dc88d481f3",
+            var map_70898e89506c038cd0515a5d72467ee2 = L.map(
+                "map_70898e89506c038cd0515a5d72467ee2",
                 {
-                    center: [11.427600000000002, -73.8191],
+                    center: [37.2949, 32.14965],
                     crs: L.CRS.EPSG3857,
                     zoom: 3,
                     zoomControl: true,
@@ -73,62 +73,62 @@
 
         
     
-            var tile_layer_d0af2449ca32db1445d3f7a6179ca1b9 = L.tileLayer(
+            var tile_layer_f30867a264505b8934c2d5d83d7953f7 = L.tileLayer(
                 "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                 {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
             );
         
     
-            tile_layer_d0af2449ca32db1445d3f7a6179ca1b9.addTo(map_f4522a05425dc93c624635dc88d481f3);
+            tile_layer_f30867a264505b8934c2d5d83d7953f7.addTo(map_70898e89506c038cd0515a5d72467ee2);
         
     
-            var marker_4409ee8131e2b8057855de0598e2ec70 = L.marker(
-                [37.0902, -95.7129],
+            var marker_1f4a836be9784d26c943be73689b4122 = L.marker(
+                [23.4241, 53.8478],
                 {}
-            ).addTo(map_f4522a05425dc93c624635dc88d481f3);
+            ).addTo(map_70898e89506c038cd0515a5d72467ee2);
         
     
-            var icon_ad5a20a0bff39be1cc567539dd6c4815 = L.AwesomeMarkers.icon(
+            var icon_ccc22ced62a6e0799680ece4faceca07 = L.AwesomeMarkers.icon(
                 {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "blue", "prefix": "glyphicon"}
             );
-            marker_4409ee8131e2b8057855de0598e2ec70.setIcon(icon_ad5a20a0bff39be1cc567539dd6c4815);
+            marker_1f4a836be9784d26c943be73689b4122.setIcon(icon_ccc22ced62a6e0799680ece4faceca07);
         
     
-            marker_4409ee8131e2b8057855de0598e2ec70.bindTooltip(
+            marker_1f4a836be9784d26c943be73689b4122.bindTooltip(
                 `<div>
-                     Source: USA
+                     Source: UAE
                  </div>`,
                 {"sticky": true}
             );
         
     
-            var marker_518895178033c9e4684b5b05a43189d3 = L.marker(
-                [-14.235, -51.9253],
+            var marker_38cbac39e1606418a6be7aa4c7825602 = L.marker(
+                [51.1657, 10.4515],
                 {}
-            ).addTo(map_f4522a05425dc93c624635dc88d481f3);
+            ).addTo(map_70898e89506c038cd0515a5d72467ee2);
         
     
-            var icon_8d1c5bca3815243ad2df0ef0c8cdadeb = L.AwesomeMarkers.icon(
+            var icon_c3a1df01a0ba6f51237e86c233b6553a = L.AwesomeMarkers.icon(
                 {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "red", "prefix": "glyphicon"}
             );
-            marker_518895178033c9e4684b5b05a43189d3.setIcon(icon_8d1c5bca3815243ad2df0ef0c8cdadeb);
+            marker_38cbac39e1606418a6be7aa4c7825602.setIcon(icon_c3a1df01a0ba6f51237e86c233b6553a);
         
     
-            marker_518895178033c9e4684b5b05a43189d3.bindTooltip(
+            marker_38cbac39e1606418a6be7aa4c7825602.bindTooltip(
                 `<div>
-                     Destination: BRAZIL
+                     Destination: GERMANY
                  </div>`,
                 {"sticky": true}
             );
         
     
-            var poly_line_5a4c7545baf86818bea533f1f1dc1b50 = L.polyline(
-                [[37.0902, -95.7129], [-14.235, -51.9253]],
+            var poly_line_7c8431e82434cf6ed46415a8cc0f77dc = L.polyline(
+                [[23.4241, 53.8478], [51.1657, 10.4515]],
                 {"bubblingMouseEvents": true, "color": "red", "dashArray": "5,5", "dashOffset": null, "fill": false, "fillColor": "red", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 4}
-            ).addTo(map_f4522a05425dc93c624635dc88d481f3);
+            ).addTo(map_70898e89506c038cd0515a5d72467ee2);
         
     
-            poly_line_5a4c7545baf86818bea533f1f1dc1b50.bindTooltip(
+            poly_line_7c8431e82434cf6ed46415a8cc0f77dc.bindTooltip(
                 `<div>
                      Direct Route (Higher Cost)
                  </div>`,
@@ -136,15 +136,35 @@
             );
         
     
-            var poly_line_15b5ae76f99d981ce3a13e62928b224c = L.polyline(
-                [[37.0902, -95.7129], [-14.235, -51.9253]],
+            var poly_line_2ab98a1f28d51fd4b43fe6895731f407 = L.polyline(
+                [[23.4241, 53.8478], [-20.3484, 57.5522], [51.1657, 10.4515]],
                 {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1.0, "smoothFactor": 1.0, "stroke": true, "weight": 5}
-            ).addTo(map_f4522a05425dc93c624635dc88d481f3);
+            ).addTo(map_70898e89506c038cd0515a5d72467ee2);
         
     
-            poly_line_15b5ae76f99d981ce3a13e62928b224c.bindTooltip(
+            poly_line_2ab98a1f28d51fd4b43fe6895731f407.bindTooltip(
                 `<div>
-                     Optimized Route: USA → BRAZIL
+                     Optimized Route: UAE → MAURITIUS → GERMANY
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0bf87f276b9446df2a6401ba5b4b4286 = L.marker(
+                [-20.3484, 57.5522],
+                {}
+            ).addTo(map_70898e89506c038cd0515a5d72467ee2);
+        
+    
+            var icon_7f11646b97fb8f91dbc7fb76f75ef6cd = L.AwesomeMarkers.icon(
+                {"extraClasses": "fa-rotate-0", "icon": "info-sign", "iconColor": "white", "markerColor": "green", "prefix": "glyphicon"}
+            );
+            marker_0bf87f276b9446df2a6401ba5b4b4286.setIcon(icon_7f11646b97fb8f91dbc7fb76f75ef6cd);
+        
+    
+            marker_0bf87f276b9446df2a6401ba5b4b4286.bindTooltip(
+                `<div>
+                     Via: MAURITIUS
                  </div>`,
                 {"sticky": true}
             );

@@ -28,7 +28,7 @@ export default function Insights() {
       <div className="space-y-6">
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">Insights</h1>
-          <p className="text-gray-500 mt-1">Live backend analytics for route cost, volume, and risk.</p>
+          <p className="text-gray-500 mt-1">Live model analytics for route cost, volume, and risk.</p>
           {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
         </div>
 
@@ -38,7 +38,7 @@ export default function Insights() {
               <Globe className="w-8 h-8" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-2">Loading live insights</h2>
-            <p className="text-gray-500">Fetching aggregated analytics from the FastAPI backend.</p>
+            <p className="text-gray-500">Fetching aggregated analytics from the ml model.</p>
           </div>
         )}
 

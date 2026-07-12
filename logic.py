@@ -4,6 +4,9 @@ from typing import Dict, List, Tuple, Any
 from dataclasses import dataclass
 from enum import Enum
 
+from backend.ml_decision_engine import MLDecisionEngine
+from backend.route_generator import ConfigRouteGenerator
+
 # ============================================
 # DATA MODELS
 # ============================================
@@ -55,16 +58,8 @@ class GlobalCapitalRouter:
         self.base_origins = {k.upper(): v for k, v in self.config['base_origins'].items()}
         self.global_constants = self.config.get('global_constants', {})
 
-        # Load ML Friction Scorer if model file exists
-        self.ml_scorer = None
-        import os
-        if os.path.exists("friction_model.pkl"):
-            try:
-                from ml_model import FrictionScorer
-                self.ml_scorer = FrictionScorer("friction_model.pkl")
-                print("[ML] Loaded FrictionScorer model successfully.")
-            except Exception as e:
-                print(f"[ML] Error loading FrictionScorer: {e}")
+        # Load ML Friction Scorer through the Phase 1 decision-engine wrapper.
+        self.ml_scorer = MLDecisionEngine("friction_model.pkl")
 
         # Build source-specific destination lookup for fast routing
         self.source_to_destination_zone = {}
@@ -89,6 +84,8 @@ class GlobalCapitalRouter:
                     'avg_correspondent_hops': 0
                 }
             }
+
+        self.route_generator = ConfigRouteGenerator(self.source_to_destination_zone)
     
     def get_zone_config(self, source: str, dest: str) -> Dict:
         """Get zone logic for a given destination based on source origin"""
@@ -164,43 +161,24 @@ class GlobalCapitalRouter:
         total_time_hrs = compliance_latency + (settlement_time * 24)
         
         # Compliance score (0-100, higher = better)
-        if self.ml_scorer:
-            try:
-                # Retrieve zone name
-                src_upper = source.upper()
-                dest_upper = dest.upper()
-                zone_name = self.source_to_destination_zone[src_upper][dest_upper]['zone']
-                
-                compliance_score, _ = self.ml_scorer.predict(
-                    withholding_tax_rate=tax_rate,
-                    additional_local_tax=dest_zone.get('additional_local_tax_pct', 0.0),
-                    correspondent_hops=dest_zone.get('avg_correspondent_hops', 1),
-                    compliance_latency_hrs=dest_zone.get('compliance_latency_hrs', 24),
-                    landing_fee_avg=landing_fee,
-                    fx_spread=fx_spread_rate,
-                    purpose=purpose,
-                    amount_usd=amount_usd,
-                    zone_name=zone_name,
-                    is_mandatory_validation=dest_zone.get('mandatory_purpose_code_validation', False),
-                    business_size=business_size,
-                )
-            except Exception as e:
-                print(f"[ML] Inference failed: {e}. Falling back to rule-based compliance score.")
-                compliance_score = 100
-                compliance_score -= dest_zone.get('avg_correspondent_hops', 1) * 5
-                if dest_zone.get('additional_local_tax_pct', 0) > 0:
-                    compliance_score -= 15
-                if dest_zone.get('mandatory_purpose_code_validation', False):
-                    compliance_score += 10
-                compliance_score = max(0, min(100, compliance_score))
-        else:
-            compliance_score = 100
-            compliance_score -= dest_zone.get('avg_correspondent_hops', 1) * 5
-            if dest_zone.get('additional_local_tax_pct', 0) > 0:
-                compliance_score -= 15
-            if dest_zone.get('mandatory_purpose_code_validation', False):
-                compliance_score += 10
-            compliance_score = max(0, min(100, compliance_score))
+        src_upper = source.upper()
+        dest_upper = dest.upper()
+        zone_name = self.source_to_destination_zone[src_upper][dest_upper]['zone']
+        ml_decision = self.ml_scorer.predict_compliance(
+            withholding_tax_rate=tax_rate,
+            additional_local_tax=dest_zone.get('additional_local_tax_pct', 0.0),
+            correspondent_hops=dest_zone.get('avg_correspondent_hops', 1),
+            compliance_latency_hrs=dest_zone.get('compliance_latency_hrs', 24),
+            landing_fee_avg=landing_fee,
+            fx_spread=fx_spread_rate,
+            purpose=purpose,
+            amount_usd=amount_usd,
+            zone_name=zone_name,
+            is_mandatory_validation=dest_zone.get('mandatory_purpose_code_validation', False),
+            business_size=business_size,
+            zone_logic=dest_zone,
+        )
+        compliance_score = ml_decision.compliance_score
         
         return {
             'total_cost_usd': total_cost,
@@ -223,55 +201,39 @@ class GlobalCapitalRouter:
         """
         Returns: (least_cost_route, fastest_route, most_compliant_route)
         
-        In expanded version, this would try multiple intermediate hubs.
-        For now, with your JSON structure, we'll compute direct route + 
-        synthetic alternatives via known hubs (UAE, Singapore, Mauritius)
+        Candidate corridors are generated from capital_routing_config.json.
+        Ranking behavior remains the same: least cost, fastest, most compliant.
         """
         
         candidate_routes = []
-        
-        # Route 1: Direct
-        direct = self.calculate_route_cost(amount_usd, source, dest, purpose, business_size, currency_handling)
-        candidate_routes.append(Route(
-            path=[source, dest],
-            total_cost_usd=direct['total_cost_usd'],
-            total_time_hrs=direct['total_time_hrs'],
-            compliance_score=direct['compliance_score'],
-            breakdown=direct['breakdown']
-        ))
-        
-        # Route 2: Via UAE (tax haven, low friction)
-        if dest.upper() != 'UAE':
-            via_uae = self.calculate_route_cost(amount_usd, source, 'UAE', purpose, business_size, currency_handling)
-            uae_to_dest = self.calculate_route_cost(amount_usd, 'UAE', dest, purpose, business_size, currency_handling)
-            
-            total_cost = via_uae['total_cost_usd'] + uae_to_dest['total_cost_usd']
-            total_time = via_uae['total_time_hrs'] + uae_to_dest['total_time_hrs']
-            compliance_score = (via_uae['compliance_score'] + uae_to_dest['compliance_score']) / 2
-            
+
+        for candidate in self.route_generator.generate(source, dest):
+            hop_costs = [
+                self.calculate_route_cost(
+                    amount_usd,
+                    hop.source,
+                    hop.destination,
+                    purpose,
+                    business_size,
+                    currency_handling,
+                )
+                for hop in candidate.hops
+            ]
+
+            if len(hop_costs) == 1:
+                breakdown = hop_costs[0]['breakdown']
+            else:
+                breakdown = {
+                    f"hop{index + 1}": hop_cost['breakdown']
+                    for index, hop_cost in enumerate(hop_costs)
+                }
+
             candidate_routes.append(Route(
-                path=[source, 'UAE', dest],
-                total_cost_usd=total_cost,
-                total_time_hrs=total_time,
-                compliance_score=compliance_score,
-                breakdown={'hop1': via_uae['breakdown'], 'hop2': uae_to_dest['breakdown']}
-            ))
-        
-        # Route 3: Via Singapore
-        if dest.upper() != 'SINGAPORE':
-            via_sg = self.calculate_route_cost(amount_usd, source, 'SINGAPORE', purpose, business_size, currency_handling)
-            sg_to_dest = self.calculate_route_cost(amount_usd, 'SINGAPORE', dest, purpose, business_size, currency_handling)
-            
-            total_cost = via_sg['total_cost_usd'] + sg_to_dest['total_cost_usd']
-            total_time = via_sg['total_time_hrs'] + sg_to_dest['total_time_hrs']
-            compliance_score = (via_sg['compliance_score'] + sg_to_dest['compliance_score']) / 2
-            
-            candidate_routes.append(Route(
-                path=[source, 'SINGAPORE', dest],
-                total_cost_usd=total_cost,
-                total_time_hrs=total_time,
-                compliance_score=compliance_score,
-                breakdown={'hop1': via_sg['breakdown'], 'hop2': sg_to_dest['breakdown']}
+                path=candidate.path,
+                total_cost_usd=sum(hop_cost['total_cost_usd'] for hop_cost in hop_costs),
+                total_time_hrs=sum(hop_cost['total_time_hrs'] for hop_cost in hop_costs),
+                compliance_score=sum(hop_cost['compliance_score'] for hop_cost in hop_costs) / len(hop_costs),
+                breakdown=breakdown
             ))
         
         # Find best by each metric

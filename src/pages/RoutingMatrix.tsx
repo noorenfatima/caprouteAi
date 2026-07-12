@@ -106,7 +106,7 @@ export default function RoutingMatrix() {
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold text-[#2D2A4A] mb-2">{result ? 'Route Optimization Complete' : 'Route Parameters'}</h1>
-          <p className="text-gray-500 text-lg">Define your capital movement corridor and analyze live backend output.</p>
+          <p className="text-gray-500 text-lg">Define your capital movement corridor and analyze live output.</p>
           {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
         </div>
 
@@ -214,7 +214,7 @@ export default function RoutingMatrix() {
                   <PreviewRow label="Priority" value={form.priority} caption={form.currency_handling} />
                   <div className="bg-[#EBE4FF]/50 rounded-2xl p-5 flex gap-3 mt-8">
                     <Info className="w-5 h-5 text-[#6D5DF5] shrink-0" />
-                    <p className="text-xs text-gray-600 font-medium leading-relaxed">The backend will compare direct, UAE, and Singapore routing based on your live parameters.</p>
+                    <p className="text-xs text-gray-600 font-medium leading-relaxed">The model will compare direct, via other countries routing based on your live parameters.</p>
                   </div>
                 </div>
 
@@ -300,7 +300,7 @@ export default function RoutingMatrix() {
             <div className="col-span-1 lg:col-span-5 flex flex-col gap-6">
               <div className="bg-[#6D5DF5] rounded-[2rem] p-8 text-white shadow-sm">
                 <h3 className="text-lg font-bold mb-3">Analysis Summary</h3>
-                <p className="text-sm text-white/80 leading-relaxed mb-6">The backend engine selected the route that best matches your priority and compliance profile.</p>
+                <p className="text-sm text-white/80 leading-relaxed mb-6">The model selected the route that best matches your priority and compliance profile.</p>
                 <button type="button" onClick={() => setResult(null)} className="w-full bg-white text-[#6D5DF5] py-3 rounded-full font-bold">Run another analysis</button>
               </div>
 
